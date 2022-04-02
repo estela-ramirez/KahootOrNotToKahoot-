@@ -1,10 +1,12 @@
 # bot.py
 import os
+import json
+import asyncio
 import random
 
 import discord
 from dotenv import load_dotenv
-#from kahoot import client
+from kahoot import client as account
 from discord.ext import commands
 #bot = client()
 
@@ -12,7 +14,21 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix="!")
 
+thing = account()
+
 # client = discord.Client()
+
+# @bot.command()
+# async def ping(ctx):
+# 	await ctx.channel.send("pong")  
+
+@bot.command()
+async def join(ctx, arg):
+    thing.join(arg, f"KahootPY")
+    def joinHandle():
+         pass
+    thing.on("joined", joinHandle()
+    await ctx.send("Bot deployed") 
 
 @bot.event
 async def on_ready():
@@ -24,36 +40,7 @@ async def on_member_join(member):
     await member.dm_channel.send(
         f'Hi {member.name}, welcome to my Discord server!'
     )
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    brooklyn_99_quotes = [
-        'kahoot poll!'
-    ]
-
-    if message.content.startswith('https://kahoot.it/?pin='):
-        response = random.choice(brooklyn_99_quotes)
-
-        # pin_index = message.content.find("pin")
-        # ampersand_index = message.content.find("&")
-        # if (pin_index != -1) and (ampersand_index != -1):
-        #     pin = message.content[pin_index: ampersand_index]
-        #     bot.join(pin,"KahootPY")
-        #     def joinHandle():
-        #         pass
-        #     bot.on("joined",joinHandle)
-
-        await message.channel.send(response)
-    else:
-        pass
-    
-@bot.command()
-async def ping(ctx):
-	await ctx.channel.send("pong")    
-        
+  
 bot.run(TOKEN)
 
 
