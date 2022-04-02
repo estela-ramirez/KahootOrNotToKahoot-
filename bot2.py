@@ -27,15 +27,10 @@ async def on_message(message):
         return
 
     brooklyn_99_quotes = [
-        'I\'m the human form of the 💯 emoji.',
-        'Bingpot!',
-        (
-            'Cool. Cool cool cool cool cool cool cool, '
-            'no doubt no doubt no doubt no doubt.'
-        ),
+        'kahoot poll!'
     ]
 
-    if message.content == '99!':
+    if message.content.startswith('https://kahoot.it/?pin='):
         response = random.choice(brooklyn_99_quotes)
         await message.channel.send(response)
 
