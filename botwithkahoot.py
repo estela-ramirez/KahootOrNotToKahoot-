@@ -1,60 +1,35 @@
-# bot.py
 import os
 import random
-
-import discord
-from dotenv import load_dotenv
-#from kahoot import client
 from discord.ext import commands
-#bot = client()
+from dotenv import load_dotenv
+import kahootscrapper
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-bot = commands.Bot(command_prefix="!")
 
-# client = discord.Client()
-
+bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@bot.event
-async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to my Discord server!'
-    )
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
+@bot.command(name='pin')
+async def nine_nine(ctx, gamePin, gameName):
     brooklyn_99_quotes = [
-        'kahoot poll!'
+        'I\'m the human form of the 💯 emoji.',
+        'Bingpot!',
+        (
+            'Cool. Cool cool cool cool cool cool cool, '
+            'no doubt no doubt no doubt no doubt.'
+        ),
     ]
-
-    if message.content.startswith('https://kahoot.it/?pin='):
-        response = random.choice(brooklyn_99_quotes)
-
-        # pin_index = message.content.find("pin")
-        # ampersand_index = message.content.find("&")
-        # if (pin_index != -1) and (ampersand_index != -1):
-        #     pin = message.content[pin_index: ampersand_index]
-        #     bot.join(pin,"KahootPY")
-        #     def joinHandle():
-        #         pass
-        #     bot.on("joined",joinHandle)
-
-        await message.channel.send(response)
-    else:
-        pass
+    response = random.choice(brooklyn_99_quotes)
+    await ctx.send(response)
+    await ctx.send('your game pin is: ' + gamePin + ' and your player name is ' + gameName)
+    # convert pin to int
+    gamePin = int(gamePin)
+    stepOne = kahootscrapper.setup_game(gamePin, gameName)
+    kahootscrapper.make_selection(stepOne)
     
-@bot.command()
-async def ping(ctx):
-	await ctx.channel.send("pong")    
-        
+    await ctx.send(response)
+
 bot.run(TOKEN)
-
-
-
