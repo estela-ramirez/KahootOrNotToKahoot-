@@ -33,5 +33,6 @@ async def on_message(message):
     if message.content.startswith('https://kahoot.it/?pin='):
         response = random.choice(brooklyn_99_quotes)
         await message.channel.send(response)
-
+    else:
+        pass
 client.run(TOKEN)
